@@ -1,0 +1,175 @@
+{
+  "name": "My workflow 7",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2bc3fbac-d61c-42c1-b162-02e996b19318",
+      "name": "When chat message received",
+      "webhookId": "0a22caa8-3cb0-4f05-84c4-6cbafd832790"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "3bcc52cb-5692-4924-b519-ba0e02f803e4",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        288
+      ],
+      "id": "174f2c50-69a5-49dc-9d84-f1dbc1c25d4c",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "WXZzVsqIZQsPqiNI",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        64,
+        256
+      ],
+      "id": "e3cdb134-59c7-424b-8b22-58d588e9280a",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Getting weather information",
+        "url": "https://api.open-meteo.com/v1/forecast?latitude=33.6996&longitude=73.0362&hourly=temperature_2m",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        256,
+        240
+      ],
+      "id": "632ec49e-7c88-43e4-bee4-9a13c272064c",
+      "name": "get weather"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Sends weather report email",
+        "sendTo": "tehrrreem101@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', `3-4 word subject line that gives a sneak peak of the weather report and make the email enticing to click on`, 'string') }}",
+        "emailType": "text",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', `A unique weather report `, 'string') }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        432,
+        240
+      ],
+      "id": "4dcca785-dc59-4b92-8567-e3131934de36",
+      "name": "Send a message in Gmail",
+      "webhookId": "08ba0f2f-2e55-4407-b81a-df55704fe018",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "NiAPwg0XdIZhIK3E",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get weather": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f892e3da-b035-48e0-b40e-2cc659fd6c90",
+  "meta": {
+    "instanceId": "f83cdd0ee19ea2a1562cc097f524087dd68e2da4a2f1ca035d77500248854d19"
+  },
+  "id": "lv4NOsKVwXq247MG",
+  "tags": []
+}
